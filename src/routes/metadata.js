@@ -1,7 +1,5 @@
 const express = require('express')
-const router = require('./health')
-
-const route = express.Router()
+const router = express.Router()
 
 const { gitCommit, appVersion } = require('../configs')
 

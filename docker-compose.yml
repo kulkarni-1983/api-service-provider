@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  api-service-provider:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - SERVER_PORT
+      - LOG_LEVEL
+      - GIT_COMMIT
+      - APP_VERSION
+    ports: 
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    networks:
+      - service-network
+
+networks:
+  service-network:
+    name: service-network
