@@ -1,6 +1,6 @@
 const winston = require('winston')
 
-const { logLevel } = require('../configs')
+const { logLevel } = require('./config')
 const options = {
   level: logLevel,
   format: winston.format.json(),

@@ -1,7 +1,7 @@
 const express = require('express')
 const routes = require('./routes')
-const { port } = require('./configs')
-const logger = require('./logger')
+const { port } = require('./configs/config')
+const logger = require('./configs/logger')
 
 const app = express()
 app.use('/', routes)

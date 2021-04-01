@@ -1,4 +1,4 @@
-const createConfig = (env = {}) => {
+const createConfig = (env) => {
   const { SERVER_PORT, LOG_LEVEL, GIT_COMMIT, APP_VERSION } = env
 
   return {
@@ -8,5 +8,4 @@ const createConfig = (env = {}) => {
     appVersion: APP_VERSION || 'dev'
   }
 }
-
 module.exports = createConfig(process.env)

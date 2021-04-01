@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const { gitCommit, appVersion } = require('../configs')
+const { gitCommit, appVersion } = require('../configs/config')
 
 router.use('/', (_, res) => {
   res.json({
