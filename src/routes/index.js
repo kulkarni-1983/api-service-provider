@@ -9,7 +9,7 @@ router.use('/health', healthRouter)
 router.use('/metadata', metadataRouter)
 
 router.use('/', (_, res) => {
-    res.sendFile(path.join(__dirname + '/default.html'))
+  res.sendFile(path.join(__dirname, '/default.html'))
 })
 
 module.exports = router

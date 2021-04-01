@@ -1,13 +1,13 @@
-const winston = require('winston');
+const winston = require('winston')
 
 const { logLevel } = require('../configs')
 const options = {
-    level: logLevel,
-    format: winston.format.json(),
-    defaultMeta: {
-        'service': 'api-service-provider'
-    },
-    transports: [new winston.transports.Console({ handleExceptions: true })]
+  level: logLevel,
+  format: winston.format.json(),
+  defaultMeta: {
+    service: 'api-service-provider'
+  },
+  transports: [new winston.transports.Console({ handleExceptions: true })]
 }
 
 const logger = winston.createLogger(options)

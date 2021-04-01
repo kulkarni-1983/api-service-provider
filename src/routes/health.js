@@ -2,11 +2,11 @@ const express = require('express')
 const router = express.Router()
 
 const HEALTH_STATUS = {
-    status: 'UP'
+  status: 'UP'
 }
 
 router.get('/', (_, res) => {
-    res.json(HEALTH_STATUS)
+  res.json(HEALTH_STATUS)
 })
 
 module.exports = router
