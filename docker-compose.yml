@@ -5,12 +5,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - ARG_GIT_COMMIT=${GIT_COMMIT}
+        - ARG_APP_VERSION=${APP_VERSION}
     image: ${IMAGE_NAME}
     environment:
       - SERVER_PORT
       - LOG_LEVEL
-      - GIT_COMMIT
-      - APP_VERSION
     ports: 
       - "${SERVER_PORT}:${SERVER_PORT}"
     networks:

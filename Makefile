@@ -24,7 +24,7 @@ lint_fix:
 
 .PHONY: run_image
 run_image:
-	docker-compose up $(IMAGE_NAME)
+	docker-compose up --force-recreate $(IMAGE_NAME)
 
 .PHONY: build_image
 build_image:
