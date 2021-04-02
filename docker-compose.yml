@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: ${IMAGE_NAME}
     environment:
       - SERVER_PORT
       - LOG_LEVEL
@@ -14,6 +15,13 @@ services:
       - "${SERVER_PORT}:${SERVER_PORT}"
     networks:
       - service-network
+
+  builder:
+    image: node:14-alpine3.10
+    volumes:
+      - ".:/app"
+    working_dir: /app
+
 
 networks:
   service-network:

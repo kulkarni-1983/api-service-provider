@@ -23,7 +23,7 @@
   "scripts": {
     "fix": "eslint --fix src/* test/*",
     "lint": "eslint src/* test/*",
-    "build": "yarn lint && yarn test",
+    "build": "yarn && yarn lint && yarn test",
     "start": "node src/index.js",
     "test": "jest --config ./jest.config.js --coverage ./test/"
   }
