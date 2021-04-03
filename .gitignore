@@ -1,3 +1,8 @@
+#infra
+infra/.terraform/*
+infra/.terraform.lock.hcl
+infra/terraform.tfstate
+
 # Logs
 logs
 *.log

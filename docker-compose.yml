@@ -23,6 +23,20 @@ services:
       - ".:/app"
     working_dir: /app
 
+  infra:
+    image: hashicorp/terraform:0.14.5
+    environment:
+      - AWS_REGION
+      - AWS_DEFAULT_REGION
+      - AWS_ACCOUNT_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_ACCESS_KEY_ID
+      - AWS_SESSION_TOKEN
+      - TF_LOG
+    volumes:
+      - './infra/:/app'
+    working_dir: /app
+
 
 networks:
   service-network:

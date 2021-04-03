@@ -3,6 +3,9 @@ export GIT_COMMIT ?= $(shell git rev-parse --short HEAD)
 export SERVER_PORT ?= 8080
 export LOG_LEVEL ?= info
 
+# deploy env
+export DEPLOY_ENV ?= dev
+
 docker_run_builder=docker-compose run --rm builder
 export IMAGE_NAME=api-service-provider
 
@@ -11,6 +14,7 @@ export AWS_REGION ?= $(AWS_DEFAULT_REGION)
 export ARTIFACT_URL ?= $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com
 
 
+# BUILD, TEST and FIX code
 
 .PHONY: build
 build:
@@ -22,14 +26,17 @@ lint_fix:
 	@echo "fix the linting issues"
 	$(docker_run_builder) yarn fix
 
-.PHONY: run_image
-run_image:
-	docker-compose up --force-recreate $(IMAGE_NAME)
+
+# Docker image: BUILD, RUN, TAG and PUSH
 
 .PHONY: build_image
 build_image:
 	@echo "building $(IMAGE_NAME) image"
 	docker-compose build $(IMAGE_NAME)
+
+.PHONY: run_image
+run_image:
+	docker-compose up --force-recreate $(IMAGE_NAME)
 
 .PHONY: tag_image
 tag_image:
@@ -38,6 +45,14 @@ tag_image:
 	@echo "tagging latest $(IMAGE_NAME):latest"
 	docker tag $(IMAGE_NAME) $(ARTIFACT_URL)/$(IMAGE_NAME):latest
 
+.PHONY: push_image
+push_image:
+	@echo "push the image $(IMAGE_NAME):$(APP_VERSION)"
+	docker push $(ARTIFACT_URL)/$(IMAGE_NAME):$(APP_VERSION)
+	docker push $(ARTIFACT_URL)/$(IMAGE_NAME):latest
+
+
+# In case of ECR as artifact: Heplers to login to ECR
 .PHONY: ecr_login
 ecr_login:
 	aws ecr get-login-password --region $(AWS_REGION) | docker login --username AWS --password-stdin $(ARTIFACT_URL)
@@ -50,8 +65,23 @@ ecr_create_repository:
     --region $(AWS_REGION)
 
 
-.PHONY: push_image
-push_image:
-	@echo "push the image $(IMAGE_NAME):$(APP_VERSION)"
-	docker push $(ARTIFACT_URL)/$(IMAGE_NAME):$(APP_VERSION)
-	docker push $(ARTIFACT_URL)/$(IMAGE_NAME):latest
+# INFRA code
+.PHONY: infra_init
+infra_init:
+	docker-compose run --rm infra init ./deploy
+
+.PHONY: infra_format
+infra_format:
+	docker-compose run --rm infra fmt -recursive .
+
+.PHONY: infra_plan
+infra_plan: infra_init
+	docker-compose run --rm infra plan -var-file="./env/${DEPLOY_ENV}-${AWS_REGION}.tfvars" ./deploy 
+
+.PHONY: infra_deploy
+infra_deploy: infra_init
+	docker-compose run --rm infra apply -auto-approve -var-file="./env/${DEPLOY_ENV}-${AWS_REGION}.tfvars" ./deploy 
+
+.PHONY: infra_shell
+infra_shell:
+	docker-compose run --rm --entrypoint sh infra 
