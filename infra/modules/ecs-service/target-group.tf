@@ -1,6 +1,6 @@
 
 resource "aws_alb_target_group" "target-group" {
-  
+
   protocol = var.healthcheck_protocol
   port     = var.container_port
   vpc_id   = var.vpc.id
@@ -27,9 +27,9 @@ resource "aws_alb_target_group" "target-group" {
 }
 
 resource "aws_lb_listener_rule" "rule" {
-  
+
   listener_arn = var.alb_listener_arn
-  
+
   action {
     type             = "forward"
     target_group_arn = aws_alb_target_group.target-group.arn

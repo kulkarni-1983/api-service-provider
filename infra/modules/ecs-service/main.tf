@@ -23,7 +23,7 @@ resource "aws_ecs_service" "service" {
 resource "aws_ecs_task_definition" "task_definition" {
   family = "${var.resource_prefix}-task-definition"
 
-  container_definitions    = jsonencode([
+  container_definitions = jsonencode([
     {
       name      = var.container_name
       image     = var.image_url
@@ -38,8 +38,8 @@ resource "aws_ecs_task_definition" "task_definition" {
   ])
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu       = var.task_cpu
-  memory    = var.task_memory
+  cpu                      = var.task_cpu
+  memory                   = var.task_memory
 
   execution_role_arn = aws_iam_role.execution_role.arn
   task_role_arn      = aws_iam_role.task_role.arn

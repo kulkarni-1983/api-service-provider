@@ -10,22 +10,22 @@ variable "resource_prefix" {
 
 variable "ecs_cluster_name" {
   description = "Name of the ECS cluster where ECS service will be attached"
-  type = string
+  type        = string
 }
 
 variable "desired_count" {
   description = "number of tasks to be launched"
-  default = 1
+  default     = 1
 }
 
 variable "container_name" {
   description = "name of the container to be attached with target group"
-  type = string
+  type        = string
 }
 
 variable "container_port" {
   description = "port of the container to be used for connecting from target group"
-  type = number
+  type        = number
 }
 
 variable "image_url" {
@@ -42,12 +42,12 @@ variable "task_memory" {
 
 variable "healthcheck_protocol" {
   description = "HTTP or HTTPS for health check"
-  default = "HTTP"
+  default     = "HTTP"
 }
 
 variable "healthcheck_path" {
   description = "path the contianer to be used for health check"
-  default = "/health"
+  default     = "/health"
 }
 
 variable "vpc" {
@@ -55,16 +55,16 @@ variable "vpc" {
 
 variable "private_subnet_ids" {
   description = "list of private subnet ids"
-  type = list(string)
+  type        = list(string)
 }
 
 variable "alb_listener_arn" {
   description = "alb listner arn to which target group will be attached"
-  type = string
+  type        = string
 }
 
 variable "path_prefix" {
   description = "path for which it is forwared to tg"
-  default = "/*"
+  default     = "/*"
 }
 

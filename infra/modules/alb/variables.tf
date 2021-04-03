@@ -10,18 +10,18 @@ variable "resource_prefix" {
 
 variable "is_private_network" {
   description = "Prefer public or private ALB"
-  default = true
-  type = bool
+  default     = true
+  type        = bool
 }
 
 variable "private_subnet_ids" {
   description = "list of private subnet ids"
-  type = list(string)
+  type        = list(string)
 }
 
 variable "public_subnet_ids" {
   description = "list of public subnet ids"
-  type = list(string)
+  type        = list(string)
 }
 
 variable "vpc" {
