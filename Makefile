@@ -76,11 +76,15 @@ infra_format:
 
 .PHONY: infra_plan
 infra_plan: infra_init
-	docker-compose run --rm infra plan -var-file="./env/${DEPLOY_ENV}-${AWS_REGION}.tfvars" ./deploy 
+	docker-compose run --rm infra plan -var-file="./env/${DEPLOY_ENV}-${AWS_REGION}.tfvars" -var "api_service_provider_image_url=$(ARTIFACT_URL)/$(IMAGE_NAME):$(APP_VERSION)" -var "aws_region=$(AWS_REGION)" ./deploy 
 
 .PHONY: infra_deploy
 infra_deploy: infra_init
-	docker-compose run --rm infra apply -auto-approve -var-file="./env/${DEPLOY_ENV}-${AWS_REGION}.tfvars" ./deploy 
+	docker-compose run --rm infra apply -auto-approve -var-file="./env/${DEPLOY_ENV}-${AWS_REGION}.tfvars" -var "api_service_provider_image_url=553479592532.dkr.ecr.ap-southeast-2.amazonaws.com/api-service-provider:1.0.0" -var "aws_region=$(AWS_REGION)" ./deploy 
+
+.PHONY: infra_destroy
+infra_destroy: infra_init
+	docker-compose run --rm infra destroy -auto-approve -var-file="./env/${DEPLOY_ENV}-${AWS_REGION}.tfvars" -var "api_service_provider_image_url=553479592532.dkr.ecr.ap-southeast-2.amazonaws.com/api-service-provider:1.0.0" -var "aws_region=$(AWS_REGION)" ./deploy 
 
 .PHONY: infra_shell
 infra_shell:

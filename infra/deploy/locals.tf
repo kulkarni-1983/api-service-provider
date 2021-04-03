@@ -6,5 +6,5 @@ locals {
     Environment = "technet"
     Region      = var.aws_region
   }
-  resource_prefix = "api-service-${var.aws_region}"
+  resource_prefix = "api-service"
 }
