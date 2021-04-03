@@ -1,0 +1,34 @@
+steps:
+  - label: ":nodejs: Build & Test App Service provider"
+    command:
+      - make build
+    agents:
+      queue: "${BUILD_AGENT_NAME:-build.linux}"
+      
+  - wait:
+    branches: "main master"
+
+  - label: ":artifactory::docker: Build & Push app service provider"
+    branches: "main master"
+    command: 
+      - make build_image
+      - make tag_image
+      - make ecr_login
+      - make push_image 
+    env:
+      GIT_COMMIT: "${BUILDKITE_COMMIT}"
+    agents:
+      queue: "${DEPLOY_AGENT_NAME:-deploy.linux}"
+  
+  - wait:
+    branches: "main master"
+  
+  - label: ":terraform::amazon-aws: Deploy the app service provider"
+    branches: "main master"
+    command: 
+      - make infra_plan
+      - make infra_deploy
+    env:
+      GIT_COMMIT: "${BUILDKITE_COMMIT}"
+    agents:
+      queue: "${DEPLOY_AGENT_NAME:-deploy.linux}"
