@@ -5,7 +5,7 @@ Server providing a basic http  `metadata`, `health` and root endpoints.
 - Repository follows [The Twelve-Factor App](https://12factor.net) approach
 - Build and deploy follows [3 musketeers](https://amaysim.engineering/the-3-musketeers-how-make-docker-and-compose-enable-us-to-release-many-times-a-day-e92ca816ef17) approach of docker-compose, dockerfile and Makefile
 - **Node-js** as programming language
-- Code is built, linted, unit tested and pushed to artifact( specified or by default ECR)
+- Code is built, linted, unit tested , integration tested and pushed to artifact( specified or by default ECR)
 - Deployed to **AWS ECS-Fargate**. Exposes the ALB endpoint to connect to the API endpoint
 - **Terraform** for infra structure as code 
 - **Buildkite** pipeline for CI/CD. Pipeline builds,tests, build and push the image and deploy to AWS.
@@ -44,23 +44,26 @@ Repository follows `3 musketeers` approach, hence it has very minimal dependenci
 # 1. Build, lint and unit testing the code. Test generates the code coverage report
 make build
 
-# 2. Build docker image
+# 2. Run integration tests
+make test
+
+# 3. Build docker image
 make build_image
 
-# 3. Tag image: Tags with the artifact url and path. If artifact url is not provided, then it's defaulted to ECR
+# 4. Tag image: Tags with the artifact url and path. If artifact url is not provided, then it's defaulted to ECR
 make tag_image
 
-# 4. Push image: Pushes the image to specified artifact
+# 5. Push image: Pushes the image to specified artifact
 make push_image
 
-# 5. Deployment: Infrastructure deployed using terraform. Two steps of terraform: plan and deploy
+# 6. Deployment: Infrastructure deployed using terraform. Two steps of terraform: plan and deploy
 make infra_plan
 make infra_deploy
 
-# 6. Destroy of infrastructure deployment
+# 7. Destroy of infrastructure deployment
 make destroy
 
-# 7. If ECR as repository, then commands to login and create the artifact
+# 8. If ECR as repository, then commands to login and create the artifact
 make ecr_login
 make ecr_create_repository
 ```
@@ -91,11 +94,16 @@ Reason for choosing node-js programming language
 * `./src` directory host the source code.
 * **Linting**: follows ES-lint coding standards
 * Code broken into self explanatory, smaller testable units.
-## Testing
-* './test` directory host unit tests of the source code
+## Unit Testing
+* `./test` directory host unit tests of the source code
 * Testing: `Jest` as the framework for testing
 * Directory structure follows the `src` code structure
 * Coverage report generated at the end of testing
+
+## Integration Testing
+* `integration-tests` directory host integrations tests
+* Both application container and test container are run in the same docker-network. This helps the test container communicate with the application container
+* Test verifies `/health`, `/metadata`, root and invalid endpoints
 
 ## Deployment and Infrastructure 
 * **AWS** as cloud service provider
@@ -140,3 +148,9 @@ Reason for choosing node-js programming language
 # Pending
 
 ## Deployment testing
+
+* Due to security reasons explained before ALB is hosted in private subnet hence will not be reachable outside the VPC.  Also security group only allows origin to be within VPC.
+* Since ALB is unreachable, testing becomes difficult run from test machine or buildkite agent
+
+### Approach: Lambda to run deployment testing.
+To reach the internal ALB, test needs to be run with the VPC. Best option be will be to trigger the lambda and hit the internal ALB host-name and verify the deployment
