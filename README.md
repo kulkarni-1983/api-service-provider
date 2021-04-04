@@ -135,6 +135,6 @@ Reason for choosing node-js programming language
 
 ## Architecture
 
-![Architecture](https://github.com/kulkarni-1983/api-service-provider/docs/AWS-Capture/png)
-
+![Architecture](./docs/Arch-Capture.png)
+                
 # Pending
