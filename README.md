@@ -154,3 +154,9 @@ Reason for choosing node-js programming language
 
 ### Approach: Lambda to run deployment testing.
 To reach the internal ALB, test needs to be run with the VPC. Best option be will be to trigger the lambda and hit the internal ALB host-name and verify the deployment
+
+
+## Version bump
+
+* Every new build triggered in master branch should bump the version present in `Package.json`
+* [Conventional commit](https://www.conventionalcommits.org/en/v1.0.0/): To detect which one of `major`, `minor` or `patch` version to be bumped. 
