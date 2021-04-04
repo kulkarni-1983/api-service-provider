@@ -11,6 +11,7 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
+    "axios": "^0.21.1",
     "eslint": "^7.23.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
@@ -21,10 +22,11 @@
     "supertest": "^6.1.3"
   },
   "scripts": {
-    "fix": "eslint --fix src/* test/*",
-    "lint": "eslint src/* test/*",
+    "fix": "eslint --fix src/* test/* integration-tests/*",
+    "lint": "eslint src/* test/* integration-tests/*",
     "build": "yarn && yarn lint && yarn test",
     "start": "node src/index.js",
-    "test": "jest --config ./jest.config.js --coverage ./test/"
+    "test": "jest --config ./jest.config.js --coverage ./test/",
+    "integration-test": "jest --config ./jest.config.js ./integration-tests/"
   }
 }

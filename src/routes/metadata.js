@@ -8,7 +8,7 @@ router.use('/', (_, res) => {
     apiServiceProvider: [
       {
         version: appVersion,
-        description: 'farmework to host api endpoint',
+        description: 'framework to host api endpoint',
         lastCommit: gitCommit
       }
     ]

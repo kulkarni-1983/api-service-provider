@@ -16,7 +16,7 @@ describe('the metadata endpoint', () => {
       apiServiceProvider: [{
         lastCommit: 'githash123',
         version: '1.0.1',
-        description: 'farmework to host api endpoint logic'
+        description: 'framework to host api endpoint'
       }]
     })
   })

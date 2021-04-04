@@ -138,3 +138,5 @@ Reason for choosing node-js programming language
 ![Architecture](./docs/Arch-Capture.png)
                 
 # Pending
+
+## Deployment testing

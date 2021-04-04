@@ -7,6 +7,7 @@ export LOG_LEVEL ?= info
 export DEPLOY_ENV ?= dev
 
 docker_run_builder=docker-compose run --rm builder
+docker_run_tester=docker-compose run --rm tester
 export IMAGE_NAME=api-service-provider
 
 # Uses the atrifact url if provided else assumes ECR using the provided AWS account details
@@ -25,6 +26,14 @@ build:
 lint_fix:
 	@echo "fix the linting issues"
 	$(docker_run_builder) yarn fix
+
+
+.PHONY: test
+test:
+	@echo "run integration tests"
+	docker-compose up -d --force-recreate $(IMAGE_NAME)
+	$(docker_run_builder) yarn && yarn integration-test
+	docker-compose down
 
 
 # Docker image: BUILD, RUN, TAG and PUSH
