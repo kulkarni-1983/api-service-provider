@@ -1,7 +1,16 @@
 steps:
-  - label: ":nodejs: Build & Test App Service provider"
+  - label: ":nodejs: Build & Unit Test App Service provider"
     command:
       - make build
+    agents:
+      queue: "${BUILD_AGENT_NAME:-build.linux}"
+      
+  - wait:
+    branches: "main master"
+
+  - label: ":nodejs: Integration test of App Service provider"
+    command:
+      - make test
     agents:
       queue: "${BUILD_AGENT_NAME:-build.linux}"
       

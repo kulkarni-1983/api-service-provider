@@ -5,7 +5,7 @@ Server providing a basic http  `metadata`, `health` and root endpoints.
 - Repository follows [The Twelve-Factor App](https://12factor.net) approach
 - Build and deploy follows [3 musketeers](https://amaysim.engineering/the-3-musketeers-how-make-docker-and-compose-enable-us-to-release-many-times-a-day-e92ca816ef17) approach of docker-compose, dockerfile and Makefile
 - **Node-js** as programming language
-- Code is built, linted, unit tested , integration tested and pushed to artifact( specified or by default ECR)
+- Code is built, linted, unit tested, integration tested and pushed to artifact( specified or by default ECR)
 - Deployed to **AWS ECS-Fargate**. Exposes the ALB endpoint to connect to the API endpoint
 - **Terraform** for infra structure as code 
 - **Buildkite** pipeline for CI/CD. Pipeline builds,tests, build and push the image and deploy to AWS.
@@ -13,7 +13,7 @@ Server providing a basic http  `metadata`, `health` and root endpoints.
 ## API endpoint
 The endpoint exposes following 
 - default root endpoint 
-- metadata endpoint returning details is json format
+- metadata endpoint returning details in json format
 ```
 {
   "apiServiceProvider": [
@@ -35,8 +35,8 @@ The endpoint exposes following
 # Guide
 ## Assumptions/Dependencies
 Repository follows `3 musketeers` approach, hence it has very minimal dependencies
-* **Docker Engine**: Code rely on docker running on the system.
-* **GNU make**: ALl the commands are run through Makefile targets. Makefile targets reflect the application life cycle.
+* **Docker Engine**: Make target relies on docker running on the system.
+* **GNU make**: All the commands are run through Makefile targets. Makefile targets reflect the application life cycle.
 * **AWS access**: Deployment assumes access to the target AWS account and all the required AWS access config is done.
 ## Usage
 
@@ -108,7 +108,7 @@ Reason for choosing node-js programming language
 ## Deployment and Infrastructure 
 * **AWS** as cloud service provider
 * Terraform for infra structure as code
-* `infra` host the code
+* `infra` directory hosts the code
 * AWS ECS Fargate to host the task
 * API server is behind the `Internal Load balancer`
 
@@ -150,7 +150,7 @@ Reason for choosing node-js programming language
 ## Deployment testing
 
 * Due to security reasons explained before ALB is hosted in private subnet hence will not be reachable outside the VPC.  Also security group only allows origin to be within VPC.
-* Since ALB is unreachable, testing becomes difficult run from test machine or buildkite agent
+* Since ALB is unreachable, testing becomes difficult to run from test machine or buildkite agent
 
 ### Approach: Lambda to run deployment testing.
 To reach the internal ALB, test needs to be run with the VPC. Best option be will be to trigger the lambda and hit the internal ALB host-name and verify the deployment
