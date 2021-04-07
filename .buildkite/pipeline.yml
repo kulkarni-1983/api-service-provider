@@ -6,7 +6,6 @@ steps:
       queue: "${BUILD_AGENT_NAME:-build.linux}"
       
   - wait:
-    branches: "main master"
 
   - label: ":nodejs: Integration test of App Service provider"
     command:
@@ -22,7 +21,6 @@ steps:
     command: 
       - make build_image
       - make tag_image
-      - make ecr_login
       - make push_image 
     env:
       GIT_COMMIT: "${BUILDKITE_COMMIT}"
