@@ -32,7 +32,7 @@ lint_fix:
 test:
 	@echo "run integration tests"
 	docker-compose up -d --force-recreate $(IMAGE_NAME)
-	$(docker_run_builder) yarn && yarn integration-test
+	$(docker_run_tester) yarn && yarn integration-test
 	docker-compose down
 
 
